@@ -1,4 +1,5 @@
 ﻿using LightNode.Server;
+using LightNodeSelfHost.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +13,11 @@ namespace LightNodeSelfHost.Api
     /// </summary>
     public class Tests : LightNodeContract
     {
-        private static readonly string _root = "/api";
-
         /// <summary>
         /// Hellow World を返します。
         /// </summary>
         /// <returns></returns>
-        [Post]
+        [Get, Post]
         public string ApiTest()
         {
             return "Hello World!";
@@ -35,6 +34,20 @@ namespace LightNodeSelfHost.Api
             var apis = LightNodeServerMiddleware.GetRegisteredHandlersInfo();
             var key = apis.Select(x => x.Key).First();
             return apis[key].SelectMany(x => x.RegisteredHandlers).Select(x => x.Key).ToArray();
+        }
+
+        /// <summary>
+        /// Hoge と Fuga の Echo を返します
+        /// </summary>
+        /// <returns></returns>
+        [Post]
+        public TestResponse Echo(string x, string y)
+        {
+            return new TestResponse
+            {
+                Hoge = x,
+                Fuga =y,
+            };
         }
     }
 }

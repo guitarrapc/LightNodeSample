@@ -66,19 +66,7 @@ namespace LightNodeSelfHost
             // api 処理
             app.Map("/api", builder =>
             {
-                builder.Use(async (ctx, next) =>
-                {
-                    try
-                    {
-                        await next();
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                    }
-                });
-
-                var option = new LightNodeOptions(AcceptVerbs.Get | AcceptVerbs.Post, new LightNode.Formatter.JsonNetContentFormatter(), new LightNode.Formatter.JsonNetContentFormatter())
+                var option = new LightNodeOptions(AcceptVerbs.Get | AcceptVerbs.Post, new JsonNetContentFormatter())
                 {
                     ParameterEnumAllowsFieldNameParse = true, // If you want to use enums human readable display on Swagger, set to true
                     ErrorHandlingPolicy = ErrorHandlingPolicy.ReturnInternalServerErrorIncludeErrorDetails,
